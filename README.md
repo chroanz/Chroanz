@@ -1,7 +1,7 @@
 <div align="center">
-  <a href="https://github.com/Chroanz">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=Chroanz&show_icons=true&theme=radical&include_all_commits=true&count_private=true"/>
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Chroanz&layout=compact&langs_count=7&theme=radical"/>
+  <a href="https://github.com/chroanz">
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=chroanz&show_icons=true&theme=radical&include_all_commits=true&count_private=true"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=chroanz&layout=compact&langs_count=7&theme=radical"/>
 </div>
 
 <div style="display: inline_block"><br>
@@ -18,6 +18,6 @@
   <a href = "mailto:christianhcoa@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
   <a href="https://www.linkedin.com/in/hans-alencar-295880206/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
  
-  ![Snake animation](https://github.com/Chroanz/Chroanz/blob/output/github-contribution-grid-snake.svg)
+  ![Snake animation](https://github.com/chroanz/chroanz/blob/output/github-contribution-grid-snake.svg)
  
 </div>
