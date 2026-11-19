@@ -1,8 +1,18 @@
 {
   "login": "chroanz",
   "since": 2022,
+  "language_window_days": 365,
   "commits_by_language": {
-    "Python": 92,
+    "Python": 20,
+    "PHP": 6,
+    "Lua": 1,
+    "Java": 20,
+    "Go": 9,
+    "PLpgSQL": 1,
+    "HTML/CSS": 2
+  },
+  "commits_by_language_all_time": {
+    "Python": 93,
     "HTML/CSS": 30,
     "JavaScript": 7,
     "PHP": 107,
@@ -15,8 +25,8 @@
     "Java": 20,
     "PLpgSQL": 1
   },
-  "total_commits": 350,
+  "total_commits": 351,
   "repos": 56,
   "pull_requests": 37,
-  "contributions_last_year": 131
+  "contributions_last_year": 132
 }
