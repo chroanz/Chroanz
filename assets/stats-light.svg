@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="495" height="190" viewBox="0 0 495 190" role="img" aria-label="GitHub activity">
+  <title>GitHub activity</title>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+    .title { font-size: 15px; font-weight: 600; fill: #1f2328; }
+    .label { font-size: 12.5px; font-weight: 500; fill: #1f2328; }
+    .value { font-size: 12.5px; font-weight: 600; fill: #1f2328; font-variant-numeric: tabular-nums; }
+    .muted { font-size: 11px; fill: #656d76; }
+    .big { font-size: 24px; font-weight: 700; fill: #1f2328; font-variant-numeric: tabular-nums; }
+    .bar { animation: grow 0.9s ease-out both; transform-origin: left; transform-box: fill-box; }
+    @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @media (prefers-reduced-motion: reduce) { .bar { animation: none; } }
+  </style>
+  <rect x="0.5" y="0.5" width="494" height="189" rx="10" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="24" y="36" class="title">GitHub activity</text>
+  <rect x="24.0" y="58" width="3" height="30" rx="1.5" fill="#0086a8"/>
+  <text x="38.0" y="78" class="big">350</text>
+  <text x="38.0" y="92" class="muted">commits</text>
+  <rect x="247.5" y="58" width="3" height="30" rx="1.5" fill="#0086a8"/>
+  <text x="261.5" y="78" class="big">131</text>
+  <text x="261.5" y="92" class="muted">contributions (12 mo)</text>
+  <rect x="24.0" y="112" width="3" height="30" rx="1.5" fill="#0086a8"/>
+  <text x="38.0" y="132" class="big">37</text>
+  <text x="38.0" y="146" class="muted">pull requests</text>
+  <rect x="247.5" y="112" width="3" height="30" rx="1.5" fill="#0086a8"/>
+  <text x="261.5" y="132" class="big">56</text>
+  <text x="261.5" y="146" class="muted">repositories</text>
+  <text x="24" y="174" class="muted">Public + private work · on GitHub since 2022 · updated Nov 2026</text>
+</svg>

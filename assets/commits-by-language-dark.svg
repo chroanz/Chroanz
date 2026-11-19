@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="495" height="334" viewBox="0 0 495 334" role="img" aria-label="Commits by language">
+  <title>Commits by language</title>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+    .title { font-size: 15px; font-weight: 600; fill: #e6edf3; }
+    .label { font-size: 12.5px; font-weight: 500; fill: #c9d1d9; }
+    .value { font-size: 12.5px; font-weight: 600; fill: #c9d1d9; font-variant-numeric: tabular-nums; }
+    .muted { font-size: 11px; fill: #8b949e; }
+    .big { font-size: 24px; font-weight: 700; fill: #e6edf3; font-variant-numeric: tabular-nums; }
+    .bar { animation: grow 0.9s ease-out both; transform-origin: left; transform-box: fill-box; }
+    @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @media (prefers-reduced-motion: reduce) { .bar { animation: none; } }
+  </style>
+  <rect x="0.5" y="0.5" width="494" height="333" rx="10" fill="#0d1117" stroke="#30363d"/>
+  <text x="24" y="36" class="title">Commits by language</text>
+  <text x="24" y="73" class="label">PHP</text>
+  <rect x="116" y="62" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="62" width="267" height="14" rx="4" fill="#777BB4" class="bar" style="animation-delay: 0.00s"/>
+  <text x="471" y="73" class="value" text-anchor="end">107<tspan class="muted" dx="6">30.6%</tspan></text>
+  <text x="24" y="103" class="label">Python</text>
+  <rect x="116" y="92" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="92" width="230" height="14" rx="4" fill="#3572A5" class="bar" style="animation-delay: 0.08s"/>
+  <text x="471" y="103" class="value" text-anchor="end">92<tspan class="muted" dx="6">26.3%</tspan></text>
+  <text x="24" y="133" class="label">Vue</text>
+  <rect x="116" y="122" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="122" width="145" height="14" rx="4" fill="#41B883" class="bar" style="animation-delay: 0.16s"/>
+  <text x="471" y="133" class="value" text-anchor="end">58<tspan class="muted" dx="6">16.6%</tspan></text>
+  <text x="24" y="163" class="label">HTML/CSS</text>
+  <rect x="116" y="152" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="152" width="75" height="14" rx="4" fill="#E34C26" class="bar" style="animation-delay: 0.24s"/>
+  <text x="471" y="163" class="value" text-anchor="end">30<tspan class="muted" dx="6"> 8.6%</tspan></text>
+  <text x="24" y="193" class="label">Java</text>
+  <rect x="116" y="182" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="182" width="50" height="14" rx="4" fill="#8B949E" class="bar" style="animation-delay: 0.32s"/>
+  <text x="471" y="193" class="value" text-anchor="end">20<tspan class="muted" dx="6"> 5.7%</tspan></text>
+  <text x="24" y="223" class="label">Go</text>
+  <rect x="116" y="212" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="212" width="40" height="14" rx="4" fill="#00ADD8" class="bar" style="animation-delay: 0.40s"/>
+  <text x="471" y="223" class="value" text-anchor="end">16<tspan class="muted" dx="6"> 4.6%</tspan></text>
+  <text x="24" y="253" class="label">Ruby</text>
+  <rect x="116" y="242" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="242" width="30" height="14" rx="4" fill="#CC342D" class="bar" style="animation-delay: 0.48s"/>
+  <text x="471" y="253" class="value" text-anchor="end">12<tspan class="muted" dx="6"> 3.4%</tspan></text>
+  <text x="24" y="283" class="label">Other</text>
+  <rect x="116" y="272" width="267" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="272" width="37" height="14" rx="4" fill="#8B949E" class="bar" style="animation-delay: 0.56s"/>
+  <text x="471" y="283" class="value" text-anchor="end">15<tspan class="muted" dx="6"> 4.3%</tspan></text>
+  <text x="24" y="318" class="muted">Commits on default branches, by repo language · updated Nov 2026</text>
+</svg>
