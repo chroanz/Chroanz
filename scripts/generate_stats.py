@@ -3,13 +3,18 @@
 Generate self-hosted SVG cards for the GitHub profile README.
 
 Outputs (in ./assets):
-  - commits-by-language-{dark,light}.svg  : your commits grouped by the repo's primary language
+  - commits-by-language-{dark,light}.svg  : languages in your recent projects, by code size
   - stats-{dark,light}.svg                : headline numbers (commits, contributions, PRs, repos)
+
+The language card measures code size (bytes per language, as reported by GitHub) in the
+repositories you committed to during the last WINDOW_DAYS days. Commit counts undervalue
+projects built in a few large commits; code size shows what you actually wrote recently.
+Commit counts per language are still saved in stats.json for reference.
 
 Why self-hosted? Public stats services (github-readme-stats on Vercel, etc.) are often
 rate-limited or down, and they can't see private repositories. This script runs inside a
-GitHub Action with your own token, so private work (e.g. company repos you have access to)
-is counted too — only aggregate numbers are published, never repo names.
+GitHub Action with your own token, so private work is counted too — only aggregate numbers
+are published, never repo names or code.
 
 Token: set a repository secret named GH_STATS_TOKEN with a fine-grained or classic PAT that
 can read your repositories (classic: `repo` + `read:user`; fine-grained: "All repositories",
@@ -37,18 +42,23 @@ API = "https://api.github.com/graphql"
 
 TOP_N = 7  # languages shown; the rest are grouped into "Other"
 
-# The language chart counts commits from the last WINDOW_DAYS days, so it reflects what you
-# work on now. Set to 0 to count all-time commits instead. The stats card is always all-time.
+# The language card looks at repos you committed to in the last WINDOW_DAYS days.
+# Set to 0 to use every repo you ever committed to. The stats card is always all-time.
 WINDOW_DAYS = 365
 
 # Merge related languages into one bar.
 LANGUAGE_ALIASES = {
     "Blade": "PHP",
     "Hack": "PHP",
-    "HTML": "HTML/CSS",
-    "CSS": "HTML/CSS",
-    "SCSS": "HTML/CSS",
     "Jupyter Notebook": "Python",
+    "TSX": "TypeScript",
+}
+
+# Left out of the code-size card: markup, styling and build files, which are often large
+# (generated pages, bundled CSS) without saying much about programming skills.
+EXCLUDE_LANGUAGES = {
+    "HTML", "CSS", "SCSS", "Sass", "Less", "Stylus",
+    "Dockerfile", "Makefile", "Procfile", "Batchfile", "Nix", "Smarty", "Twig",
 }
 
 # Repositories to ignore (owner/name), e.g. tutorials or vendored code.
@@ -68,8 +78,8 @@ COLORS = {
     "C#": "#178600",
     "Rust": "#DEA584",
     "Lua": "#5A6FD6",
-    "HTML/CSS": "#E34C26",
     "Shell": "#89E051",
+    "PLpgSQL": "#336790",
     "Other": "#8B949E",
 }
 
@@ -134,6 +144,9 @@ REPO_FIELDS = """
   nodes {
     nameWithOwner isFork
     primaryLanguage { name }
+    languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
+      edges { size node { name } }
+    }
     defaultBranchRef {
       target {
         ... on Commit {
@@ -148,7 +161,7 @@ REPO_FIELDS = """
 OWN_REPOS_Q = f"""
 query($uid: ID!, $since: GitTimestamp!, $cursor: String) {{
   viewer {{
-    repositories(first: 25, after: $cursor,
+    repositories(first: 20, after: $cursor,
                  ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {{
       {REPO_FIELDS}
     }}
@@ -159,7 +172,7 @@ query($uid: ID!, $since: GitTimestamp!, $cursor: String) {{
 CONTRIB_REPOS_Q = f"""
 query($uid: ID!, $since: GitTimestamp!, $cursor: String) {{
   viewer {{
-    repositoriesContributedTo(first: 25, after: $cursor, includeUserRepositories: true,
+    repositoriesContributedTo(first: 20, after: $cursor, includeUserRepositories: true,
                               contributionTypes: [COMMIT, PULL_REQUEST]) {{
       {REPO_FIELDS}
     }}
@@ -178,6 +191,10 @@ def paged_repos(token: str, query: str, key: str, uid: str, since: str) -> list[
         cursor = data["pageInfo"]["endCursor"]
 
 
+def _alias(lang: str) -> str:
+    return LANGUAGE_ALIASES.get(lang, lang)
+
+
 def collect(token: str) -> dict:
     viewer = gql(token, VIEWER_Q)["viewer"]
     uid = viewer["id"]
@@ -190,10 +207,13 @@ def collect(token: str) -> dict:
         for r in paged_repos(token, q, key, uid, since):
             repos[r["nameWithOwner"]] = r
 
-    by_lang: dict[str, int] = defaultdict(int)  # commits in the window
-    by_lang_all: dict[str, int] = defaultdict(int)  # all-time commits
+    bytes_recent: dict[str, int] = defaultdict(int)  # code size in repos committed to recently
+    bytes_all: dict[str, int] = defaultdict(int)  # code size in every repo committed to
+    commits_recent: dict[str, int] = defaultdict(int)
+    commits_all: dict[str, int] = defaultdict(int)
     total_commits = 0
     repos_with_commits = 0
+
     for name, r in repos.items():
         if name in EXCLUDE_REPOS or r["isFork"]:
             continue
@@ -202,22 +222,32 @@ def collect(token: str) -> dict:
         recent = (target.get("recent") or {}).get("totalCount", 0)
         if not count:
             continue
-        lang = (r.get("primaryLanguage") or {}).get("name") or "Other"
-        lang = LANGUAGE_ALIASES.get(lang, lang)
-        by_lang_all[lang] += count
-        if recent:
-            by_lang[lang] += recent
         total_commits += count
         repos_with_commits += 1
 
+        primary = _alias((r.get("primaryLanguage") or {}).get("name") or "Other")
+        commits_all[primary] += count
+        if recent:
+            commits_recent[primary] += recent
+
+        for edge in (r.get("languages") or {}).get("edges") or []:
+            lang = edge["node"]["name"]
+            if lang in EXCLUDE_LANGUAGES:
+                continue
+            lang = _alias(lang)
+            bytes_all[lang] += edge["size"]
+            if recent:
+                bytes_recent[lang] += edge["size"]
+
     created = dt.datetime.fromisoformat(viewer["createdAt"].replace("Z", "+00:00"))
+    use_recent = bool(bytes_recent)  # no recent activity → fall back to all-time
     return {
         "login": viewer["login"],
         "since": created.year,
-        # If there were no commits in the window, fall back to all-time numbers.
-        "language_window_days": WINDOW_DAYS if by_lang else 0,
-        "commits_by_language": dict(by_lang) if by_lang else dict(by_lang_all),
-        "commits_by_language_all_time": dict(by_lang_all),
+        "language_window_days": WINDOW_DAYS if use_recent else 0,
+        "code_bytes_by_language": dict(bytes_recent if use_recent else bytes_all),
+        "commits_by_language": dict(commits_recent),
+        "commits_by_language_all_time": dict(commits_all),
         "total_commits": total_commits,
         "repos": repos_with_commits,
         "pull_requests": viewer["pullRequests"]["totalCount"],
@@ -257,7 +287,7 @@ def _card(width: int, height: int, theme: dict, title: str, body: str, footer: s
 
 
 def render_languages(data: dict, theme: dict) -> str:
-    items = sorted(data["commits_by_language"].items(), key=lambda kv: kv[1], reverse=True)
+    items = sorted(data["code_bytes_by_language"].items(), key=lambda kv: kv[1], reverse=True)
     if len(items) > TOP_N:
         rest = sum(v for _, v in items[TOP_N:])
         items = items[:TOP_N] + [("Other", rest)]
@@ -265,8 +295,8 @@ def render_languages(data: dict, theme: dict) -> str:
     peak = max((v for _, v in items), default=1)
 
     width, row_h, top = 495, 30, 60
-    label_w, bar_x = 92, 24 + 92
-    bar_max = width - bar_x - 112
+    bar_x = 24 + 92
+    bar_max = width - bar_x - 80
     rows = []
     for i, (lang, value) in enumerate(items):
         y = top + i * row_h
@@ -278,16 +308,18 @@ def render_languages(data: dict, theme: dict) -> str:
             f'  <text x="24" y="{y + 13}" class="label">{html.escape(lang)}</text>\n'
             f'  <rect x="{bar_x}" y="{y + 2}" width="{bar_max}" height="14" rx="4" fill="{theme["track"]}"/>\n'
             f'  <rect x="{bar_x}" y="{y + 2}" width="{w}" height="14" rx="4" fill="{color}" class="bar" style="{delay}"/>\n'
-            f'  <text x="{width - 24}" y="{y + 13}" class="value" text-anchor="end">{_fmt(value)}'
-            f'<tspan class="muted" dx="6">{pct:4.1f}%</tspan></text>'
+            f'  <text x="{width - 24}" y="{y + 13}" class="value" text-anchor="end">{pct:.1f}%</text>'
         )
     height = top + len(items) * row_h + 34
     window = data.get("language_window_days", 0)
-    period = "last 12 months" if window == 365 else (f"last {window} days" if window else "all time")
-    footer = f"Commits in the {period}, by repo language · updated {dt.date.today():%b %Y}"
-    if not window:
-        footer = f"All-time commits, by repo language · updated {dt.date.today():%b %Y}"
-    title = "Commits by language" + (f" · {period}" if window else "")
+    today = f"{dt.date.today():%b %Y}"
+    if window:
+        period = "last 12 months" if window == 365 else f"last {window} days"
+        title = f"Languages in my projects · {period}"
+        footer = f"Code size in repos I committed to in the {period} · updated {today}"
+    else:
+        title = "Languages in my projects"
+        footer = f"Code size in repos I committed to · updated {today}"
     return _card(width, height, theme, title, "\n".join(rows), footer)
 
 
@@ -316,6 +348,7 @@ def render_stats(data: dict, theme: dict) -> str:
 def write_all(data: dict, out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     for name, theme in THEMES.items():
+        # File name kept from the first version so the README doesn't need to change.
         (out_dir / f"commits-by-language-{name}.svg").write_text(render_languages(data, theme))
         (out_dir / f"stats-{name}.svg").write_text(render_stats(data, theme))
     (out_dir / "stats.json").write_text(json.dumps(data, indent=2) + "\n")
