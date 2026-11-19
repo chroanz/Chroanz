@@ -37,6 +37,10 @@ API = "https://api.github.com/graphql"
 
 TOP_N = 7  # languages shown; the rest are grouped into "Other"
 
+# The language chart counts commits from the last WINDOW_DAYS days, so it reflects what you
+# work on now. Set to 0 to count all-time commits instead. The stats card is always all-time.
+WINDOW_DAYS = 365
+
 # Merge related languages into one bar.
 LANGUAGE_ALIASES = {
     "Blade": "PHP",
@@ -60,6 +64,9 @@ COLORS = {
     "Vue": "#41B883",
     "Ruby": "#CC342D",
     "Kotlin": "#A97BFF",
+    "Java": "#B07219",
+    "C#": "#178600",
+    "Rust": "#DEA584",
     "Lua": "#5A6FD6",
     "HTML/CSS": "#E34C26",
     "Shell": "#89E051",
@@ -128,13 +135,18 @@ REPO_FIELDS = """
     nameWithOwner isFork
     primaryLanguage { name }
     defaultBranchRef {
-      target { ... on Commit { history(author: {id: $uid}) { totalCount } } }
+      target {
+        ... on Commit {
+          all: history(author: {id: $uid}) { totalCount }
+          recent: history(author: {id: $uid}, since: $since) { totalCount }
+        }
+      }
     }
   }
 """
 
 OWN_REPOS_Q = f"""
-query($uid: ID!, $cursor: String) {{
+query($uid: ID!, $since: GitTimestamp!, $cursor: String) {{
   viewer {{
     repositories(first: 25, after: $cursor,
                  ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {{
@@ -145,7 +157,7 @@ query($uid: ID!, $cursor: String) {{
 """
 
 CONTRIB_REPOS_Q = f"""
-query($uid: ID!, $cursor: String) {{
+query($uid: ID!, $since: GitTimestamp!, $cursor: String) {{
   viewer {{
     repositoriesContributedTo(first: 25, after: $cursor, includeUserRepositories: true,
                               contributionTypes: [COMMIT, PULL_REQUEST]) {{
@@ -156,10 +168,10 @@ query($uid: ID!, $cursor: String) {{
 """
 
 
-def paged_repos(token: str, query: str, key: str, uid: str) -> list[dict]:
+def paged_repos(token: str, query: str, key: str, uid: str, since: str) -> list[dict]:
     out, cursor = [], None
     while True:
-        data = gql(token, query, {"uid": uid, "cursor": cursor})["viewer"][key]
+        data = gql(token, query, {"uid": uid, "since": since, "cursor": cursor})["viewer"][key]
         out.extend(n for n in data["nodes"] if n)
         if not data["pageInfo"]["hasNextPage"]:
             return out
@@ -169,25 +181,32 @@ def paged_repos(token: str, query: str, key: str, uid: str) -> list[dict]:
 def collect(token: str) -> dict:
     viewer = gql(token, VIEWER_Q)["viewer"]
     uid = viewer["id"]
+    now = dt.datetime.now(dt.timezone.utc)
+    since_dt = now - dt.timedelta(days=WINDOW_DAYS) if WINDOW_DAYS else dt.datetime(2008, 1, 1, tzinfo=dt.timezone.utc)
+    since = since_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     repos: dict[str, dict] = {}
     for q, key in ((OWN_REPOS_Q, "repositories"), (CONTRIB_REPOS_Q, "repositoriesContributedTo")):
-        for r in paged_repos(token, q, key, uid):
+        for r in paged_repos(token, q, key, uid, since):
             repos[r["nameWithOwner"]] = r
 
-    by_lang: dict[str, int] = defaultdict(int)
+    by_lang: dict[str, int] = defaultdict(int)  # commits in the window
+    by_lang_all: dict[str, int] = defaultdict(int)  # all-time commits
     total_commits = 0
     repos_with_commits = 0
     for name, r in repos.items():
         if name in EXCLUDE_REPOS or r["isFork"]:
             continue
         target = (r.get("defaultBranchRef") or {}).get("target") or {}
-        count = (target.get("history") or {}).get("totalCount", 0)
+        count = (target.get("all") or {}).get("totalCount", 0)
+        recent = (target.get("recent") or {}).get("totalCount", 0)
         if not count:
             continue
         lang = (r.get("primaryLanguage") or {}).get("name") or "Other"
         lang = LANGUAGE_ALIASES.get(lang, lang)
-        by_lang[lang] += count
+        by_lang_all[lang] += count
+        if recent:
+            by_lang[lang] += recent
         total_commits += count
         repos_with_commits += 1
 
@@ -195,7 +214,10 @@ def collect(token: str) -> dict:
     return {
         "login": viewer["login"],
         "since": created.year,
-        "commits_by_language": dict(by_lang),
+        # If there were no commits in the window, fall back to all-time numbers.
+        "language_window_days": WINDOW_DAYS if by_lang else 0,
+        "commits_by_language": dict(by_lang) if by_lang else dict(by_lang_all),
+        "commits_by_language_all_time": dict(by_lang_all),
         "total_commits": total_commits,
         "repos": repos_with_commits,
         "pull_requests": viewer["pullRequests"]["totalCount"],
@@ -260,8 +282,13 @@ def render_languages(data: dict, theme: dict) -> str:
             f'<tspan class="muted" dx="6">{pct:4.1f}%</tspan></text>'
         )
     height = top + len(items) * row_h + 34
-    footer = f"Commits on default branches, by repo language · updated {dt.date.today():%b %Y}"
-    return _card(width, height, theme, "Commits by language", "\n".join(rows), footer)
+    window = data.get("language_window_days", 0)
+    period = "last 12 months" if window == 365 else (f"last {window} days" if window else "all time")
+    footer = f"Commits in the {period}, by repo language · updated {dt.date.today():%b %Y}"
+    if not window:
+        footer = f"All-time commits, by repo language · updated {dt.date.today():%b %Y}"
+    title = "Commits by language" + (f" · {period}" if window else "")
+    return _card(width, height, theme, title, "\n".join(rows), footer)
 
 
 def render_stats(data: dict, theme: dict) -> str:
