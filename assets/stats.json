@@ -3,7 +3,7 @@
   "since": 2022,
   "language_window_days": 365,
   "code_bytes_by_language": {
-    "Python": 548023,
+    "Python": 550769,
     "PHP": 345246,
     "JavaScript": 9440,
     "Lua": 7991,
@@ -16,7 +16,7 @@
   },
   "commits_by_language": {
     "Python": 21,
-    "PHP": 5,
+    "PHP": 1,
     "Lua": 1,
     "Java": 20,
     "Go": 9,
@@ -41,5 +41,5 @@
   "total_commits": 352,
   "repos": 56,
   "pull_requests": 37,
-  "contributions_last_year": 133
+  "contributions_last_year": 134
 }

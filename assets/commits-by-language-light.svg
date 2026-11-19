@@ -16,18 +16,18 @@
   <text x="24" y="73" class="label">Python</text>
   <rect x="116" y="62" width="299" height="14" rx="4" fill="#eaeef2"/>
   <rect x="116" y="62" width="299" height="14" rx="4" fill="#3572A5" class="bar" style="animation-delay: 0.00s"/>
-  <text x="471" y="73" class="value" text-anchor="end">38.0%</text>
+  <text x="471" y="73" class="value" text-anchor="end">38.1%</text>
   <text x="24" y="103" class="label">PHP</text>
   <rect x="116" y="92" width="299" height="14" rx="4" fill="#eaeef2"/>
-  <rect x="116" y="92" width="188" height="14" rx="4" fill="#777BB4" class="bar" style="animation-delay: 0.08s"/>
+  <rect x="116" y="92" width="187" height="14" rx="4" fill="#777BB4" class="bar" style="animation-delay: 0.08s"/>
   <text x="471" y="103" class="value" text-anchor="end">23.9%</text>
   <text x="24" y="133" class="label">Go</text>
   <rect x="116" y="122" width="299" height="14" rx="4" fill="#eaeef2"/>
-  <rect x="116" y="122" width="123" height="14" rx="4" fill="#00ADD8" class="bar" style="animation-delay: 0.16s"/>
+  <rect x="116" y="122" width="122" height="14" rx="4" fill="#00ADD8" class="bar" style="animation-delay: 0.16s"/>
   <text x="471" y="133" class="value" text-anchor="end">15.6%</text>
   <text x="24" y="163" class="label">TypeScript</text>
   <rect x="116" y="152" width="299" height="14" rx="4" fill="#eaeef2"/>
-  <rect x="116" y="152" width="77" height="14" rx="4" fill="#3178C6" class="bar" style="animation-delay: 0.24s"/>
+  <rect x="116" y="152" width="76" height="14" rx="4" fill="#3178C6" class="bar" style="animation-delay: 0.24s"/>
   <text x="471" y="163" class="value" text-anchor="end">9.7%</text>
   <text x="24" y="193" class="label">Java</text>
   <rect x="116" y="182" width="299" height="14" rx="4" fill="#eaeef2"/>
