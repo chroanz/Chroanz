@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="495" height="304" viewBox="0 0 495 304" role="img" aria-label="Commits by language · last 12 months">
-  <title>Commits by language · last 12 months</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="495" height="334" viewBox="0 0 495 334" role="img" aria-label="Languages in my projects · last 12 months">
+  <title>Languages in my projects · last 12 months</title>
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
     .title { font-size: 15px; font-weight: 600; fill: #e6edf3; }
@@ -11,35 +11,39 @@
     @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
     @media (prefers-reduced-motion: reduce) { .bar { animation: none; } }
   </style>
-  <rect x="0.5" y="0.5" width="494" height="303" rx="10" fill="#0d1117" stroke="#30363d"/>
-  <text x="24" y="36" class="title">Commits by language · last 12 months</text>
+  <rect x="0.5" y="0.5" width="494" height="333" rx="10" fill="#0d1117" stroke="#30363d"/>
+  <text x="24" y="36" class="title">Languages in my projects · last 12 months</text>
   <text x="24" y="73" class="label">Python</text>
-  <rect x="116" y="62" width="267" height="14" rx="4" fill="#21262d"/>
-  <rect x="116" y="62" width="267" height="14" rx="4" fill="#3572A5" class="bar" style="animation-delay: 0.00s"/>
-  <text x="471" y="73" class="value" text-anchor="end">20<tspan class="muted" dx="6">33.9%</tspan></text>
-  <text x="24" y="103" class="label">Java</text>
-  <rect x="116" y="92" width="267" height="14" rx="4" fill="#21262d"/>
-  <rect x="116" y="92" width="267" height="14" rx="4" fill="#B07219" class="bar" style="animation-delay: 0.08s"/>
-  <text x="471" y="103" class="value" text-anchor="end">20<tspan class="muted" dx="6">33.9%</tspan></text>
+  <rect x="116" y="62" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="62" width="299" height="14" rx="4" fill="#3572A5" class="bar" style="animation-delay: 0.00s"/>
+  <text x="471" y="73" class="value" text-anchor="end">38.0%</text>
+  <text x="24" y="103" class="label">PHP</text>
+  <rect x="116" y="92" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="92" width="188" height="14" rx="4" fill="#777BB4" class="bar" style="animation-delay: 0.08s"/>
+  <text x="471" y="103" class="value" text-anchor="end">23.9%</text>
   <text x="24" y="133" class="label">Go</text>
-  <rect x="116" y="122" width="267" height="14" rx="4" fill="#21262d"/>
-  <rect x="116" y="122" width="120" height="14" rx="4" fill="#00ADD8" class="bar" style="animation-delay: 0.16s"/>
-  <text x="471" y="133" class="value" text-anchor="end">9<tspan class="muted" dx="6">15.3%</tspan></text>
-  <text x="24" y="163" class="label">PHP</text>
-  <rect x="116" y="152" width="267" height="14" rx="4" fill="#21262d"/>
-  <rect x="116" y="152" width="80" height="14" rx="4" fill="#777BB4" class="bar" style="animation-delay: 0.24s"/>
-  <text x="471" y="163" class="value" text-anchor="end">6<tspan class="muted" dx="6">10.2%</tspan></text>
-  <text x="24" y="193" class="label">HTML/CSS</text>
-  <rect x="116" y="182" width="267" height="14" rx="4" fill="#21262d"/>
-  <rect x="116" y="182" width="27" height="14" rx="4" fill="#E34C26" class="bar" style="animation-delay: 0.32s"/>
-  <text x="471" y="193" class="value" text-anchor="end">2<tspan class="muted" dx="6"> 3.4%</tspan></text>
-  <text x="24" y="223" class="label">Lua</text>
-  <rect x="116" y="212" width="267" height="14" rx="4" fill="#21262d"/>
-  <rect x="116" y="212" width="13" height="14" rx="4" fill="#5A6FD6" class="bar" style="animation-delay: 0.40s"/>
-  <text x="471" y="223" class="value" text-anchor="end">1<tspan class="muted" dx="6"> 1.7%</tspan></text>
-  <text x="24" y="253" class="label">PLpgSQL</text>
-  <rect x="116" y="242" width="267" height="14" rx="4" fill="#21262d"/>
-  <rect x="116" y="242" width="13" height="14" rx="4" fill="#8B949E" class="bar" style="animation-delay: 0.48s"/>
-  <text x="471" y="253" class="value" text-anchor="end">1<tspan class="muted" dx="6"> 1.7%</tspan></text>
-  <text x="24" y="288" class="muted">Commits in the last 12 months, by repo language · updated Nov 2026</text>
+  <rect x="116" y="122" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="122" width="123" height="14" rx="4" fill="#00ADD8" class="bar" style="animation-delay: 0.16s"/>
+  <text x="471" y="133" class="value" text-anchor="end">15.6%</text>
+  <text x="24" y="163" class="label">TypeScript</text>
+  <rect x="116" y="152" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="152" width="77" height="14" rx="4" fill="#3178C6" class="bar" style="animation-delay: 0.24s"/>
+  <text x="471" y="163" class="value" text-anchor="end">9.7%</text>
+  <text x="24" y="193" class="label">Java</text>
+  <rect x="116" y="182" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="182" width="43" height="14" rx="4" fill="#B07219" class="bar" style="animation-delay: 0.32s"/>
+  <text x="471" y="193" class="value" text-anchor="end">5.4%</text>
+  <text x="24" y="223" class="label">Vue</text>
+  <rect x="116" y="212" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="212" width="37" height="14" rx="4" fill="#41B883" class="bar" style="animation-delay: 0.40s"/>
+  <text x="471" y="223" class="value" text-anchor="end">4.7%</text>
+  <text x="24" y="253" class="label">Shell</text>
+  <rect x="116" y="242" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="242" width="8" height="14" rx="4" fill="#89E051" class="bar" style="animation-delay: 0.48s"/>
+  <text x="471" y="253" class="value" text-anchor="end">1.0%</text>
+  <text x="24" y="283" class="label">Other</text>
+  <rect x="116" y="272" width="299" height="14" rx="4" fill="#21262d"/>
+  <rect x="116" y="272" width="12" height="14" rx="4" fill="#8B949E" class="bar" style="animation-delay: 0.56s"/>
+  <text x="471" y="283" class="value" text-anchor="end">1.5%</text>
+  <text x="24" y="318" class="muted">Code size in repos I committed to in the last 12 months · updated Nov 2026</text>
 </svg>

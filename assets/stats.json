@@ -2,19 +2,32 @@
   "login": "chroanz",
   "since": 2022,
   "language_window_days": 365,
+  "code_bytes_by_language": {
+    "Python": 548023,
+    "PHP": 345246,
+    "JavaScript": 9440,
+    "Lua": 7991,
+    "Java": 78549,
+    "Go": 224951,
+    "Vue": 67919,
+    "TypeScript": 140605,
+    "Shell": 15034,
+    "PLpgSQL": 4573
+  },
   "commits_by_language": {
-    "Python": 20,
-    "PHP": 6,
+    "Python": 21,
+    "PHP": 5,
     "Lua": 1,
     "Java": 20,
     "Go": 9,
     "PLpgSQL": 1,
-    "HTML/CSS": 2
+    "HTML": 2
   },
   "commits_by_language_all_time": {
-    "Python": 93,
-    "HTML/CSS": 30,
+    "Python": 94,
+    "HTML": 13,
     "JavaScript": 7,
+    "CSS": 17,
     "PHP": 107,
     "Vue": 58,
     "Ruby": 12,
@@ -25,8 +38,8 @@
     "Java": 20,
     "PLpgSQL": 1
   },
-  "total_commits": 351,
+  "total_commits": 352,
   "repos": 56,
   "pull_requests": 37,
-  "contributions_last_year": 132
+  "contributions_last_year": 133
 }
