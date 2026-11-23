@@ -14,10 +14,10 @@
   <rect x="0.5" y="0.5" width="494" height="189" rx="10" fill="#ffffff" stroke="#d0d7de"/>
   <text x="24" y="36" class="title">GitHub activity</text>
   <rect x="24.0" y="58" width="3" height="30" rx="1.5" fill="#0086a8"/>
-  <text x="38.0" y="78" class="big">352</text>
+  <text x="38.0" y="78" class="big">353</text>
   <text x="38.0" y="92" class="muted">commits</text>
   <rect x="247.5" y="58" width="3" height="30" rx="1.5" fill="#0086a8"/>
-  <text x="261.5" y="78" class="big">135</text>
+  <text x="261.5" y="78" class="big">107</text>
   <text x="261.5" y="92" class="muted">contributions (12 mo)</text>
   <rect x="24.0" y="112" width="3" height="30" rx="1.5" fill="#0086a8"/>
   <text x="38.0" y="132" class="big">37</text>

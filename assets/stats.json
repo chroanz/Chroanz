@@ -8,9 +8,9 @@
     "JavaScript": 9440,
     "Lua": 7991,
     "Java": 78549,
-    "Go": 224951,
+    "Go": 273591,
     "Vue": 67919,
-    "TypeScript": 140605,
+    "TypeScript": 279566,
     "Shell": 15034,
     "PLpgSQL": 4573
   },
@@ -19,9 +19,10 @@
     "PHP": 1,
     "Lua": 1,
     "Java": 20,
-    "Go": 9,
+    "Go": 6,
     "PLpgSQL": 1,
-    "HTML": 2
+    "HTML": 2,
+    "TypeScript": 4
   },
   "commits_by_language_all_time": {
     "Python": 94,
@@ -31,15 +32,15 @@
     "PHP": 107,
     "Vue": 58,
     "Ruby": 12,
-    "TypeScript": 2,
-    "Go": 16,
+    "TypeScript": 6,
+    "Go": 13,
     "Kotlin": 4,
     "Lua": 1,
     "Java": 20,
     "PLpgSQL": 1
   },
-  "total_commits": 352,
+  "total_commits": 353,
   "repos": 56,
   "pull_requests": 37,
-  "contributions_last_year": 135
+  "contributions_last_year": 107
 }
